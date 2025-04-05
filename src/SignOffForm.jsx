@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { firestore } from './firebase'; 
+import { collection, addDoc } from 'firebase/firestore';
 
 const SignOffForm = ({ onSubmit, onCancel }) => {
   const [formData, setFormData] = useState({
@@ -32,9 +34,17 @@ const SignOffForm = ({ onSubmit, onCancel }) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit(formData);
+
+    try {
+      const docRef = await addDoc(collection(firestore, "signOffs"), formData);
+      alert(`Form submitted successfully! Document ID: ${docRef.id}`);
+      if (onSubmit) onSubmit(formData);
+    } catch (error) {
+      console.error("Error adding document: ", error);
+      alert("Failed to submit form.");
+    }
   };
 
   return (
@@ -54,7 +64,7 @@ const SignOffForm = ({ onSubmit, onCancel }) => {
           required
         />
       </div>
-      
+
       {/* Status */}
       <div>
         <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-1">
@@ -72,7 +82,7 @@ const SignOffForm = ({ onSubmit, onCancel }) => {
           <option value="In Progress">In Progress</option>
         </select>
       </div>
-      
+
       {/* Feature Name */}
       <div>
         <label htmlFor="featureName" className="block text-sm font-medium text-gray-700 mb-1">
@@ -88,8 +98,8 @@ const SignOffForm = ({ onSubmit, onCancel }) => {
           required
         />
       </div>
-      
-      {/* Sprint Goal */}
+
+  
       <div>
         <label htmlFor="sprintGoal" className="block text-sm font-medium text-gray-700 mb-1">
           Sprint Goal
@@ -104,7 +114,7 @@ const SignOffForm = ({ onSubmit, onCancel }) => {
           required
         />
       </div>
-      
+
       {/* Checkpoints */}
       <div>
         <span className="block text-sm font-medium text-gray-700 mb-2">
@@ -139,8 +149,7 @@ const SignOffForm = ({ onSubmit, onCancel }) => {
           </div>
         </div>
       </div>
-      
-      {/* Comments */}
+
       <div>
         <label htmlFor="comments" className="block text-sm font-medium text-gray-700 mb-1">
           Comments (Optional)
@@ -154,8 +163,8 @@ const SignOffForm = ({ onSubmit, onCancel }) => {
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
-      
-      {/* Submit button */}
+
+
       <div className="flex justify-end space-x-3">
         {onCancel && (
           <button
