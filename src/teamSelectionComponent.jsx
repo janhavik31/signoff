@@ -11,13 +11,13 @@ const TeamSectionCard = ({ teamName }) => {
   return (
     <div
       onClick={handleClick}
-      className="cursor-pointer max-w-sm w-full bg-white border border-black rounded-lg shadow-md p-5 transform transition duration-300 hover:scale-105 hover:shadow-xl hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+      className="cursor-pointer max-w-sm w-full bg-gray-800 border border-gray-700 rounded-lg shadow-sm p-5 transform transition duration-300 hover:scale-105 hover:shadow-xl dark:hover:bg-gray-700"
     >
       <div>
-        <h5 className="mb-4 text-2xl font-bold tracking-tight text-blue-900 dark:text-white text-center">
+        <h5 className="mb-4 text-2xl font-bold tracking-tight text-white text-center">
           {teamName} Dashboard
         </h5>
-        <p className="mb-3 font-medium text-gray-700 dark:text-gray-300 text-center">
+        <p className="mb-3 font-medium text-gray-300 text-center">
           Click to view sign-offs and progress for the {teamName} team.
         </p>
         <div className="flex justify-center">
