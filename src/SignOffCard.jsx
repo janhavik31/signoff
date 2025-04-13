@@ -7,6 +7,7 @@ const extractTicketId = (url) => {
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+
 const SignOffCard = ({ signOffs, onEdit, onDelete }) => {
   const navigate = useNavigate();
   
