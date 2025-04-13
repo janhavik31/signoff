@@ -50,13 +50,15 @@ const SignOffForm = ({ onSubmit, onCancel, initialData = null }) => {
   };
 
   const handleSignoffChange = (key, field, value) => {
+    const userName = localStorage.getItem('userName');
     setFormData(prev => ({
       ...prev,
       signoffs: {
         ...prev.signoffs,
         [key]: {
           ...prev.signoffs[key],
-          [field]: value
+          [field]: value,
+          ...(field === 'value' && { signedBy: userName }), 
         }
       }
     }));
