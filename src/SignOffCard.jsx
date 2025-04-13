@@ -1,5 +1,12 @@
+const extractTicketId = (url) => {
+  const regex = /\/browse\/([A-Z]+-\d+)/;
+  const match = url.match(regex);
+  return match ? match[1] : url;
+};
+
 import React from "react";
 import { useNavigate } from "react-router-dom";
+
 
 const SignOffCard = ({ signOffs, onEdit, onDelete }) => {
   const navigate = useNavigate();
@@ -30,14 +37,19 @@ const SignOffCard = ({ signOffs, onEdit, onDelete }) => {
         <div className="flex justify-between items-start">
           <div className="text-sm text-blue-600 underline">
             <a
-              href={signOffs.issueLink || "#"}
+              href={
+                signOffs.issueId?.startsWith("http")
+                  ? signOffs.issueId
+                  : (signOffs.issueLink || "#")
+              }
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => handleIssueClick(e, signOffs.issueId)}
             >
-              {signOffs.issueId || "No Issue ID"}
+              {extractTicketId(signOffs.issueId) || "No Issue ID"}
             </a>
           </div>
+
           <span className={`px-2 py-1 text-xs rounded-full ${getStatusColor(signOffs.status)}`}>
             {signOffs.status || "Unknown"}
           </span>
