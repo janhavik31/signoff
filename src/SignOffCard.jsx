@@ -1,11 +1,14 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const SignOffCard = ({ signOffs, onEdit, onDelete }) => {
+  const navigate = useNavigate();
+  
   const getStatusColor = (status) => {
     switch (status) {
       case "Completed":
         return "bg-green-100 text-green-800";
-      case "in process":
+      case "In Progress":
         return "bg-blue-100 text-blue-800";
       case "Blocked":
         return "bg-red-100 text-red-800";
@@ -13,11 +16,11 @@ const SignOffCard = ({ signOffs, onEdit, onDelete }) => {
         return "bg-gray-100 text-gray-800";
     }
   };
+
   const handleIssueClick = (e, issueId) => {
     e.stopPropagation();
     navigate(`/issue/${issueId}`); 
   };
-
 
   const signoffsData = signOffs.signoffs || signOffs;
 
@@ -30,6 +33,7 @@ const SignOffCard = ({ signOffs, onEdit, onDelete }) => {
               href={signOffs.issueLink || "#"}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={(e) => handleIssueClick(e, signOffs.issueId)}
             >
               {signOffs.issueId || "No Issue ID"}
             </a>
@@ -45,16 +49,19 @@ const SignOffCard = ({ signOffs, onEdit, onDelete }) => {
 
         <div className="grid grid-cols-2 gap-x-4 text-sm">
           {[
-            { label: "QA Signoff", value: signoffsData.qa?.value },
-            { label: "Dev Signoff", value: signoffsData.dev?.value },
-            { label: "Architect Signoff", value: signoffsData.architect?.value },
-            { label: "Performance Signoff", value: signoffsData.performance?.value },
-            { label: "Security Signoff", value: signoffsData.security?.value },
-            { label: "Product Signoff", value: signoffsData.product?.value },
-          ].map(({ label, value }) => (
+            { label: "QA Signoff", value: signoffsData.qa?.value, signedBy: signoffsData.qa?.signedBy },
+            { label: "Dev Signoff", value: signoffsData.dev?.value, signedBy: signoffsData.dev?.signedBy },
+            { label: "Architect Signoff", value: signoffsData.architect?.value, signedBy: signoffsData.architect?.signedBy },
+            { label: "Performance Signoff", value: signoffsData.performance?.value, signedBy: signoffsData.performance?.signedBy },
+            { label: "Security Signoff", value: signoffsData.security?.value, signedBy: signoffsData.security?.signedBy },
+            { label: "Product Signoff", value: signoffsData.product?.value, signedBy: signoffsData.product?.signedBy },
+          ].map(({ label, value, signedBy }) => (
             <div key={label} className="flex justify-between">
               <span className="font-medium text-gray-500">{label}</span>
-              <span>{value || "N/A"}</span>
+              <span>
+                {value || "N/A"}
+                {signedBy && ` (by ${signedBy})`}
+              </span>
             </div>
           ))}
         </div>
