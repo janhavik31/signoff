@@ -1,4 +1,8 @@
-import React from "react";
+const extractTicketId = (url) => {
+  const regex = /\/browse\/([A-Z]+-\d+)/;
+  const match = url.match(regex);
+  return match ? match[1] : url; // Return ticket ID or full URL if no match
+};
 
 const SignOffCard = ({ signOffs, onEdit, onDelete }) => {
   const getStatusColor = (status) => {
@@ -13,11 +17,6 @@ const SignOffCard = ({ signOffs, onEdit, onDelete }) => {
         return "bg-gray-100 text-gray-800";
     }
   };
-  const handleIssueClick = (e, issueId) => {
-    e.stopPropagation();
-    navigate(`/issue/${issueId}`); 
-  };
-
 
   const signoffsData = signOffs.signoffs || signOffs;
 
@@ -27,13 +26,18 @@ const SignOffCard = ({ signOffs, onEdit, onDelete }) => {
         <div className="flex justify-between items-start">
           <div className="text-sm text-blue-600 underline">
             <a
-              href={signOffs.issueLink || "#"}
+              href={
+                signOffs.issueId?.startsWith("http")
+                  ? signOffs.issueId
+                  : (signOffs.issueLink || "#")
+              }
               target="_blank"
               rel="noopener noreferrer"
             >
-              {signOffs.issueId || "No Issue ID"}
+              {extractTicketId(signOffs.issueId) || "No Issue ID"}
             </a>
           </div>
+
           <span className={`px-2 py-1 text-xs rounded-full ${getStatusColor(signOffs.status)}`}>
             {signOffs.status || "Unknown"}
           </span>
