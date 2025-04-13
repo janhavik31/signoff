@@ -34,3 +34,4 @@ const TeamSectionCard = ({ teamName }) => {
 };
 
 export default TeamSectionCard;
+

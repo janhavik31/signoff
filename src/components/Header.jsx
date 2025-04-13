@@ -11,6 +11,7 @@ const Header = () => {
   const formattedTeamName = teamName 
     ? teamName.charAt(0).toUpperCase() + teamName.slice(1) 
     : 'Team';
+    
 
   useEffect(() => {
     const handleClickOutside = (event) => {
