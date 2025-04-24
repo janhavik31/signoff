@@ -5,6 +5,7 @@ import SignOffDashboard from './SignOffDashboard';
 import TeamSelection from './teamSelectionPage'; // Make sure this component exists
 import SignIn from './SignIn';
 import SignUp from './SignUp';
+import SignOffDetails from './SignOffDetails';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/signin" element={<SignIn/>} />
         <Route path="/team-selection" element={<TeamSelection />} />
         <Route path="/dashboard/:teamName" element={<SignOffDashboard />} />
+        <Route path="/signoff/:id" element={<SignOffDetails />} />
       </Routes>
     </Router>
   );

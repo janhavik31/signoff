@@ -19,7 +19,8 @@ const SignOffForm = ({ onSubmit, onCancel, initialData = null }) => {
       product: { value: '', comment: '' },
     },
     signoffDate: '',
-    deploymentDate: ''
+    deploymentDate: '',
+    status: 'In Progress'
   });
 
   // Populate form if editing
@@ -29,7 +30,7 @@ const SignOffForm = ({ onSubmit, onCancel, initialData = null }) => {
         teamName: initialData.teamName || '',
         issueId: initialData.issueId || '',
         summary: initialData.summary || '',
-         status: initialData.status || 'In Progress',
+        status: initialData.status || 'In Progress',
         signoffs: {
           qa: { value: initialData.signoffs?.qa?.value || '', comment: initialData.signoffs?.qa?.comment || '' },
           dev: { value: initialData.signoffs?.dev?.value || '', comment: initialData.signoffs?.dev?.comment || '' },
@@ -135,93 +136,117 @@ const SignOffForm = ({ onSubmit, onCancel, initialData = null }) => {
   const signoffFields = ['qa', 'dev', 'architect', 'performance', 'security', 'product'];
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-3xl mx-auto p-6 space-y-6 bg-white rounded shadow-md overflow-y-auto max-h-[90vh]">
-      <h2 className="text-2xl font-semibold text-center text-blue-800">
+    <form onSubmit={handleSubmit} className="p-6 space-y-6 relative">
+      <button
+        type="button"
+        onClick={onCancel}
+        className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100 transition-colors duration-200"
+        aria-label="Close form"
+      >
+        <svg 
+          className="w-5 h-5" 
+          fill="none" 
+          stroke="currentColor" 
+          viewBox="0 0 24 24"
+        >
+          <path 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            strokeWidth="2" 
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
+
+      <h2 className="text-2xl font-semibold text-center text-gray-900 mb-8">
         {initialData ? "Edit Feature Signoff" : "Feature Signoff Form"}
       </h2>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Team Name</label>
-        <input
-          type="text"
-          name="teamName"
-          value={formData.teamName}
-          disabled
-          className="w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md"
-        />
+      <div className="space-y-6">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Team Name</label>
+          <input
+            type="text"
+            name="teamName"
+            value={formData.teamName}
+            disabled
+            className="w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="issueId" className="block text-sm font-medium text-gray-700 mb-1">Issue ID</label>
+          <input
+            type="text"
+            name="issueId"
+            value={formData.issueId}
+            onChange={handleInputChange}
+            required
+            className="w-full px-3 py-2 bg-white/80 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="summary" className="block text-sm font-medium text-gray-700 mb-1">Summary</label>
+          <textarea
+            name="summary"
+            value={formData.summary}
+            onChange={handleInputChange}
+            rows="3"
+            required
+            className="w-full px-3 py-2 bg-white/80 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+          <select
+            name="status"
+            value={formData.status}
+            onChange={handleInputChange}
+            required
+            className="w-full px-3 py-2 bg-white/80 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="In Progress">In Progress</option>
+            <option value="Completed">Completed</option>
+            <option value="Blocked">Blocked</option>
+          </select>
+        </div>
+
+        {signoffFields.map(key => renderSignoffSection(key, key))}
+
+        <div>
+          <label htmlFor="signoffDate" className="block text-sm font-medium text-gray-700 mb-1">Signoff Date</label>
+          <input
+            type="date"
+            name="signoffDate"
+            value={formData.signoffDate}
+            onChange={handleInputChange}
+            required
+            className="w-full px-3 py-2 bg-white/80 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="deploymentDate" className="block text-sm font-medium text-gray-700 mb-1">Deployment Date</label>
+          <input
+            type="date"
+            name="deploymentDate"
+            value={formData.deploymentDate}
+            onChange={handleInputChange}
+            required
+            className="w-full px-3 py-2 bg-white/80 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
       </div>
 
-      <div>
-        <label htmlFor="issueId" className="block text-sm font-medium text-gray-700 mb-1">Issue ID</label>
-        <input
-          type="text"
-          name="issueId"
-          value={formData.issueId}
-          onChange={handleInputChange}
-          required
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
-
-      <div>
-        <label htmlFor="summary" className="block text-sm font-medium text-gray-700 mb-1">Summary</label>
-        <textarea
-          name="summary"
-          value={formData.summary}
-          onChange={handleInputChange}
-          rows="3"
-          required
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
-      <div>
-  <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-1">Status</label>
-  <select
-    name="status"
-    value={formData.status}
-    onChange={handleInputChange}
-    required
-    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-  >
-    <option value="In Progress">in process</option>
-    <option value="Completed">Completed</option>
-    <option value="Blocked">Blocked</option>
-  </select>
-</div>
-
-      {signoffFields.map(key => renderSignoffSection(key, key))}
-
-      <div>
-        <label htmlFor="signoffDate" className="block text-sm font-medium text-gray-700 mb-1">Signoff Date</label>
-        <input
-          type="date"
-          name="signoffDate"
-          value={formData.signoffDate}
-          onChange={handleInputChange}
-          required
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
-
-      <div>
-        <label htmlFor="deploymentDate" className="block text-sm font-medium text-gray-700 mb-1">Deployment Date</label>
-        <input
-          type="date"
-          name="deploymentDate"
-          value={formData.deploymentDate}
-          onChange={handleInputChange}
-          required
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
-
-      <div className="flex justify-between items-center pt-4">
+      <div className="flex justify-between items-center pt-6 border-t border-gray-200">
         <div className="flex gap-3">
           {onCancel && (
             <button
               type="button"
               onClick={onCancel}
-              className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50"
+              className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200"
             >
               Cancel
             </button>
@@ -230,7 +255,7 @@ const SignOffForm = ({ onSubmit, onCancel, initialData = null }) => {
             <button
               type="button"
               onClick={handleDelete}
-              className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+              className="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
             >
               Delete
             </button>
@@ -238,7 +263,7 @@ const SignOffForm = ({ onSubmit, onCancel, initialData = null }) => {
         </div>
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-700 text-white rounded-md hover:bg-blue-600"
+          className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
         >
           {initialData ? 'Update' : 'Submit'}
         </button>
