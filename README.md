@@ -14,7 +14,6 @@ This project is a React-based application built with Vite. It is designed to str
 - [Features](#features)
 - [Project Structure](#project-structure)
 - [Technologies Used](#technologies-used)
-- [Scripts](#scripts)
 - [Contributing](#contributing)
 
 ---
@@ -112,3 +111,9 @@ signoff/
 
 --
 
+## Contributing
+- Janhavi Kadam
+- Aditi Gandhi
+- Payal Sontakke
+- Sanket Pate
+- Aukshwant Gaikwad
