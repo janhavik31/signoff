@@ -9,8 +9,6 @@ This project is a React-based application built with Vite. It is designed to str
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
   - [Running the Application](#running-the-application)
-  - [Building for Production](#building-for-production)
-  - [Previewing the Production Build](#previewing-the-production-build)
 - [Features](#features)
 - [Project Structure](#project-structure)
 - [Technologies Used](#technologies-used)
