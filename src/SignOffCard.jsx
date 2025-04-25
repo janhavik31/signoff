@@ -54,8 +54,8 @@ const SignOffCard = ({ signOffs, onEdit, onDelete }) => {
 
   return (
     <>
-      <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-        <div className="p-4">
+      <div className="bg-white rounded-lg border border-gray-200 overflow-hidden flex flex-col h-full">
+      <div className="p-4 flex flex-col flex-grow">
           <div className="flex justify-between items-center mb-3">
             <div 
               className="text-blue-600 cursor-pointer text-sm"
@@ -86,7 +86,7 @@ const SignOffCard = ({ signOffs, onEdit, onDelete }) => {
             {renderSignoffRow("Deployment Date", signOffs.deploymentDate)}
           </div>
 
-          <div className="flex justify-between items-center mt-3 pt-2 border-t border-gray-100">
+          <div className="flex justify-between items-center pt-2 border-t border-gray-100 mt-auto">
             <div className="flex gap-3">
               <button
                 onClick={() => onEdit(signOffs)}

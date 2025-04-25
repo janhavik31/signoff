@@ -80,15 +80,10 @@ const SignOffDetails = () => {
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-4xl mx-auto p-6">
         {/* Header */}
-        <div className="flex items-center gap-4 mb-8">
-          <button
-            onClick={() => navigate(-1)}
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-          >
-            <ArrowLeft className="w-6 h-6 text-gray-600" />
-          </button>
+        <div className="mb-8">
           <h1 className="text-2xl font-bold text-gray-900">Sign-off Details</h1>
         </div>
+
 
         {/* Main Content */}
         <div className="bg-white rounded-lg shadow-sm p-6">
